@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0.22
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: codely
+      MYSQL_USER: codely
+      MYSQL_PASSWORD: codely
+      MYSQL_ROOT_PASSWORD: codely
+
+volumes:
+  mysql_data:
