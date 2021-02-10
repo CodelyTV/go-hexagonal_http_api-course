@@ -27,6 +27,9 @@ Each folder corresponds to one of the course lessons / videos:
 1. [`04-03-command-bus`](./04-03-command-bus) - Unificando nuestros casos de uso: Command Bus
 1. [`05-01-graceful-shutdown`](./05-01-graceful-shutdown) - Graceful shutdown
 1. [`05-02-timeouts`](./05-02-timeouts) - Timeouts en operaciones asíncronas: repositorio
+1. [`06-01-http-middlewares`](./06-01-http-middlewares) - Usando middlewares HTTP en Go
+1. [`06-02-time-parse-in-go`](./06-02-time-parse-in-go) - El secreto mejor guardado de Go y sus fechas
+1. [`06-03-gin-middlewares`](./06-03-gin-middlewares) - Implementando el middleware de recuperación de errores en Gin
 
 ### Usage
 
