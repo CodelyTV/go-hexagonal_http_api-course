@@ -3,8 +3,8 @@ package creating
 import (
 	"context"
 	"errors"
-	mooc "github.com/CodelyTV/go-hexagonal_http_api-course/04-01-application-service/internal"
-	"github.com/CodelyTV/go-hexagonal_http_api-course/04-01-application-service/internal/platform/storage/storagemocks"
+	mooc "github.com/CodelyTV/go-hexagonal_http_api-course/04-02-application-service-test/internal"
+	"github.com/CodelyTV/go-hexagonal_http_api-course/04-02-application-service-test/internal/platform/storage/storagemocks"
 	"testing"
 
 	"github.com/stretchr/testify/mock"
