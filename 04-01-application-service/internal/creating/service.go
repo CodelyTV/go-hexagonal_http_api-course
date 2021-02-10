@@ -27,13 +27,3 @@ func (s CourseService) CreateCourse(ctx context.Context, id, name, duration stri
 	}
 	return s.courseRepository.Save(ctx, course)
 }
-
-
-
-
-
-
-
-
-
-

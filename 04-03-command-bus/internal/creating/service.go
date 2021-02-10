@@ -3,7 +3,7 @@ package creating
 import (
 	"context"
 
-	mooc "github.com/CodelyTV/go-hexagonal_http_api-course/04-02-application-service-test/internal"
+	mooc "github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/internal"
 )
 
 // CourseService is the default CourseService interface
