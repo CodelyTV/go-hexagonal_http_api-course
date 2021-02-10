@@ -22,6 +22,9 @@ Each folder corresponds to one of the course lessons / videos:
 1. [`02-04-domain-validations`](./02-04-domain-validations) - Añadiendo validaciones a nuestro dominio
 1. [`03-01-mysql-repository-implementation`](./03-01-mysql-repository-implementation) - Implementando nuestro repositorio para MySQL
 1. [`03-02-repository-test`](./03-02-repository-test) - Testeando nuestro repositorio
+1. [`04-01-application-service`](./04-01-application-service) - Refactorizando el endpoint para extraer el Application Service
+1. [`04-02-application-service-test`](./04-02-application-service-test) - Testeando el Application Service
+1. [`04-03-command-bus`](./04-03-command-bus) - Unificando nuestros casos de uso: Command Bus
 
 ### Usage
 
