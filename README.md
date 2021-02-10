@@ -25,6 +25,8 @@ Each folder corresponds to one of the course lessons / videos:
 1. [`04-01-application-service`](./04-01-application-service) - Refactorizando el endpoint para extraer el Application Service
 1. [`04-02-application-service-test`](./04-02-application-service-test) - Testeando el Application Service
 1. [`04-03-command-bus`](./04-03-command-bus) - Unificando nuestros casos de uso: Command Bus
+1. [`05-01-graceful-shutdown`](./05-01-graceful-shutdown) - Graceful shutdown
+1. [`05-02-timeouts`](./05-02-timeouts) - Timeouts en operaciones asíncronas: repositorio
 
 ### Usage
 
