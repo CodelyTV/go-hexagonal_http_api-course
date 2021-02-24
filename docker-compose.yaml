@@ -1,10 +1,16 @@
 version: '3.8'
 
 services:
+  mooc-api:
+    build: .
+    environment:
+      MOOC_HOST: 0.0.0.0
+      MOOC_DBHOST: mysql
+    ports:
+      - 8080:8080
+
   mysql:
     image: mysql:8.0.22
-    ports:
-      - 3306:3306
     volumes:
       - mysql_data:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
