@@ -30,6 +30,12 @@ Each folder corresponds to one of the course lessons / videos:
 1. [`06-01-http-middlewares`](./06-01-http-middlewares) - Usando middlewares HTTP en Go
 1. [`06-02-time-parse-in-go`](./06-02-time-parse-in-go) - El secreto mejor guardado de Go y sus fechas
 1. [`06-03-gin-middlewares`](./06-03-gin-middlewares) - Implementando el middleware de recuperación de errores en Gin
+1. [`07-01-publishing-domain-events`](./07-01-publishing-domain-events) - Publicando eventos de curso creado
+1. [`07-02-domain-events-subscriber`](./07-02-domain-events-subscriber) - Implementando nuestro suscriptor de eventos
+1. [`07-03-event-bus-implementation`](./07-03-event-bus-implementation) - Implementando el Event Bus
+1. [`08-01-reading-env-variables`](./08-01-reading-env-variables) - Leyendo configuración de variables de entorno
+1. [`08-02-build-and-deploy`](./08-02-build-and-deploy) - Build, despliegue y ¡a producción!
+1. [`08-03-debugging`](./08-03-debugging) - Generando la imagen de Docker y depurando errores
 
 ### Usage
 
