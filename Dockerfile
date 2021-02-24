@@ -1,9 +1,9 @@
 FROM golang:alpine AS build
 
 RUN apk add --update git
-WORKDIR /go/src/github.com/codelytv/golang-hex-examples
+WORKDIR /go/src/github.com/CodelyTV/go-hexagonal_http_api-course
 COPY . .
-RUN CGO_ENABLED=0 go build -o /go/bin/codelytv-mooc-api 15-deploy-to-production/cmd/api/main.go
+RUN CGO_ENABLED=0 go build -o /go/bin/codelytv-mooc-api 08-03-debugging/cmd/api/main.go
 
 # Building image with the binary
 FROM scratch
