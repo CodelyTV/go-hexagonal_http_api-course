@@ -1,6 +1,7 @@
 package courses
 
 import (
+	"errors"
 	"net/http"
 
 	mooc "github.com/CodelyTV/go-hexagonal_http_api-course/02-04-domain-validations/internal"
@@ -24,7 +25,14 @@ func CreateHandler(courseRepository mooc.CourseRepository) gin.HandlerFunc {
 
 		course, err := mooc.NewCourse(req.ID, req.Name, req.Duration)
 		if err != nil {
-			ctx.JSON(http.StatusBadRequest, err.Error())
+			if errors.Is(err, mooc.ErrEmptyCourseName) {
+				ctx.JSON(http.StatusBadRequest, err.Error())
+			} else if errors.Is(err, mooc.ErrShortCourseName) {
+				ctx.JSON(http.StatusLengthRequired, err.Error())
+			} else {
+				ctx.JSON(http.StatusBadRequest, err.Error())
+			}
+
 			return
 		}
 
