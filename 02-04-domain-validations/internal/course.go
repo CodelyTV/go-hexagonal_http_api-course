@@ -33,8 +33,11 @@ func (id CourseID) String() string {
 }
 
 var ErrEmptyCourseName = errors.New("the field Course Name can not be empty")
+var ErrShortCourseName = errors.New("the field Course Name is too short")
 
 // CourseName represents the course name.
+const courseNameMinimunLength = 10
+
 type CourseName struct {
 	value string
 }
@@ -43,6 +46,10 @@ type CourseName struct {
 func NewCourseName(value string) (CourseName, error) {
 	if value == "" {
 		return CourseName{}, ErrEmptyCourseName
+	}
+
+	if len(value) < courseNameMinimunLength {
+		return CourseName{}, ErrShortCourseName
 	}
 
 	return CourseName{
