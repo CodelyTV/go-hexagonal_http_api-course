@@ -45,11 +45,11 @@ type CourseName struct {
 // NewCourseName instantiate VO for CourseName
 func NewCourseName(value string) (CourseName, error) {
 	if value == "" {
-		return CourseName{}, ErrEmptyCourseName
+		return CourseName{}, fmt.Errorf("%w: %s", ErrEmptyCourseName, value)
 	}
 
 	if len(value) < courseNameMinimunLength {
-		return CourseName{}, ErrShortCourseName
+		return CourseName{}, fmt.Errorf("%w: %s", ErrShortCourseName, value)
 	}
 
 	return CourseName{
