@@ -37,3 +37,35 @@ func (r *CourseRepository) Save(ctx context.Context, course mooc.Course) error {
 
 	return nil
 }
+
+func (r *CourseRepository) SearchAll(ctx context.Context) ([]mooc.Course, error) {
+	courseSQLStruct := sqlbuilder.NewStruct(new(sqlCourse))
+	query, args := courseSQLStruct.SelectFrom(sqlCourseTable).Build()
+
+	rows, err := r.db.QueryContext(ctx, query, args...)
+
+	if err != nil {
+		return []mooc.Course{}, fmt.Errorf("error trying to search all courses on database: %v", err)
+	}
+
+	var courses []mooc.Course
+	for rows.Next() {
+		var id string
+		var name string
+		var duration string
+
+		if err := rows.Scan(&id, &name, &duration); err != nil {
+			return []mooc.Course{}, fmt.Errorf("error trying to search all courses on database: %v", err)
+		}
+
+		course, err := mooc.NewCourse(id, name, duration)
+
+		if err != nil {
+			return []mooc.Course{}, fmt.Errorf("error trying to create new course in repository : %v", err)
+		}
+
+		courses = append(courses, course)
+	}
+
+	return courses, nil
+}

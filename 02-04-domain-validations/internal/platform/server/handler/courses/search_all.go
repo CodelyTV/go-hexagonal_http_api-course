@@ -17,15 +17,22 @@ type CourseResponse struct {
 func SearchAllHandler(courseRepository mooc.CourseRepository) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
-		var courses [1]CourseResponse
-
-		course1, _ := mooc.NewCourse("8a1c5cdc-ba57-445a-994d-aa412d23723f", "New Course", "10 hours")
-		courses[0] = CourseResponse{
-			Id:       course1.ID().String(),
-			Name:     course1.Name().String(),
-			Duration: course1.Duration().String(),
+		courses, err := courseRepository.SearchAll(ctx)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+			return
 		}
 
-		ctx.JSON(http.StatusOK, courses)
+		var coursesResponse []CourseResponse
+
+		for _, course := range courses {
+			coursesResponse = append(coursesResponse, CourseResponse{
+				Id:       course.ID().String(),
+				Name:     course.Name().String(),
+				Duration: course.Duration().String(),
+			})
+		}
+
+		ctx.JSON(http.StatusOK, coursesResponse)
 	}
 }
