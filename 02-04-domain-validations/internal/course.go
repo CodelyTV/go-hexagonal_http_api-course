@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
+	"unicode"
 
 	"github.com/google/uuid"
 )
@@ -33,6 +35,29 @@ func (id CourseID) String() string {
 }
 
 var ErrEmptyCourseName = errors.New("the field Course Name can not be empty")
+var ErrInvalidCharactersCourseName = errors.New("the field Course Name can not have numbers characters")
+var ErrMinimumCharactersCourseName = errors.New("the longitude of field Course Name has to be more than 5")
+
+
+func checkName(value string) error {
+	if value == "" {
+		return ErrEmptyCourseName
+	}
+	if len(value) < 5 {
+		return ErrMinimumCharactersCourseName
+	}
+
+	words := strings.Fields(value)
+	for _, word := range words {
+		for _, l := range word {
+			if !unicode.IsLetter(l) {
+				return ErrInvalidCharactersCourseName
+			}
+		}
+	}
+	return nil
+}
+
 
 // CourseName represents the course name.
 type CourseName struct {
@@ -41,14 +66,16 @@ type CourseName struct {
 
 // NewCourseName instantiate VO for CourseName
 func NewCourseName(value string) (CourseName, error) {
-	if value == "" {
-		return CourseName{}, ErrEmptyCourseName
+	err := checkName(value)
+	if err != nil {
+		return CourseName{}, err
 	}
 
 	return CourseName{
 		value: value,
 	}, nil
 }
+
 
 // String type converts the CourseName into string.
 func (name CourseName) String() string {
@@ -80,6 +107,7 @@ func (duration CourseDuration) String() string {
 // CourseRepository defines the expected behaviour from a course storage.
 type CourseRepository interface {
 	Save(ctx context.Context, course Course) error
+	GetAll(ctx context.Context) ([]Course, error)
 }
 
 //go:generate mockery --case=snake --outpkg=storagemocks --output=platform/storage/storagemocks --name=CourseRepository

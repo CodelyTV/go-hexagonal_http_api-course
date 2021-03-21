@@ -10,4 +10,5 @@ require (
 	github.com/huandu/go-sqlbuilder v1.10.0
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/stretchr/testify v1.4.0
+	github.com/vektra/mockery/v2 v2.7.4 // indirect
 )
