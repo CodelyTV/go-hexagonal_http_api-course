@@ -22,46 +22,38 @@ func TestHandler_Create(t *testing.T) {
 	r := gin.New()
 	r.POST("/courses", CreateHandler(courseRepository))
 
-	t.Run("given an invalid request it returns 400", func(t *testing.T) {
-		createCourseReq := createRequest{
-			Name:     "Demo Course",
-			Duration: "10 months",
-		}
+	tests := map[string]struct {
+		id string
+		name string
+		duration string
+		want int
+	}{
+		"given an invalid request it returns 400": {name: "Demo Course", duration: "10 months", want: http.StatusBadRequest},
+		"given an invalid name it returns 412": {id: "8a1c5cdc-ba57-445a-994d-aa412d23723f", name: "412 Course", duration: "10 months", want: http.StatusPreconditionFailed},
+		"given a valid request it returns 201": {id: "8a1c5cdc-ba57-445a-994d-aa412d23723f", name: "Demo Course", duration: "10 months", want: http.StatusCreated},
+	}
+	for key, value := range tests {
+		t.Run(key, func(t *testing.T) {
 
-		b, err := json.Marshal(createCourseReq)
-		require.NoError(t, err)
+			createCourseReq := createRequest{
+				ID: value.id,
+				Name:     value.name,
+				Duration: value.duration,
+			}
 
-		req, err := http.NewRequest(http.MethodPost, "/courses", bytes.NewBuffer(b))
-		require.NoError(t, err)
+			b, err := json.Marshal(createCourseReq)
+			require.NoError(t, err)
 
-		rec := httptest.NewRecorder()
-		r.ServeHTTP(rec, req)
+			req, err := http.NewRequest(http.MethodPost, "/courses", bytes.NewBuffer(b))
+			require.NoError(t, err)
 
-		res := rec.Result()
-		defer res.Body.Close()
+			rec := httptest.NewRecorder()
+			r.ServeHTTP(rec, req)
 
-		assert.Equal(t, http.StatusBadRequest, res.StatusCode)
-	})
+			res := rec.Result()
+			defer res.Body.Close()
 
-	t.Run("given a valid request it returns 201", func(t *testing.T) {
-		createCourseReq := createRequest{
-			ID:       "8a1c5cdc-ba57-445a-994d-aa412d23723f",
-			Name:     "Demo Course",
-			Duration: "10 months",
-		}
-
-		b, err := json.Marshal(createCourseReq)
-		require.NoError(t, err)
-
-		req, err := http.NewRequest(http.MethodPost, "/courses", bytes.NewBuffer(b))
-		require.NoError(t, err)
-
-		rec := httptest.NewRecorder()
-		r.ServeHTTP(rec, req)
-
-		res := rec.Result()
-		defer res.Body.Close()
-
-		assert.Equal(t, http.StatusCreated, res.StatusCode)
-	})
+			assert.Equal(t, value.want, res.StatusCode)
+		})
+	}
 }
