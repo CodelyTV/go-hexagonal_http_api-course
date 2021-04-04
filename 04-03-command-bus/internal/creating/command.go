@@ -4,12 +4,12 @@ import (
 	"context"
 	"errors"
 
-	"github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/kit/command"
+	"github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/kit/bus"
 )
 
-const CourseCommandType command.Type = "command.creating.course"
+const CourseCommandType bus.Type = "bus.creating.course"
 
-// CourseCommand is the command dispatched to create a new course.
+// CourseCommand is the bus dispatched to create a new course.
 type CourseCommand struct {
 	id       string
 	name     string
@@ -25,11 +25,11 @@ func NewCourseCommand(id, name, duration string) CourseCommand {
 	}
 }
 
-func (c CourseCommand) Type() command.Type {
+func (c CourseCommand) Type() bus.Type {
 	return CourseCommandType
 }
 
-// CourseCommandHandler is the command handler
+// CourseCommandHandler is the bus handler
 // responsible for creating courses.
 type CourseCommandHandler struct {
 	service CourseService
@@ -42,11 +42,11 @@ func NewCourseCommandHandler(service CourseService) CourseCommandHandler {
 	}
 }
 
-// Handle implements the command.Handler interface.
-func (h CourseCommandHandler) Handle(ctx context.Context, cmd command.Command) error {
+// Handle implements the bus.CommandHandler interface.
+func (h CourseCommandHandler) Handle(ctx context.Context, cmd bus.Command) error {
 	createCourseCmd, ok := cmd.(CourseCommand)
 	if !ok {
-		return errors.New("unexpected command")
+		return errors.New("unexpected bus")
 	}
 
 	return h.service.CreateCourse(

@@ -6,7 +6,7 @@ import (
 
 	mooc "github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/internal"
 	"github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/internal/creating"
-	"github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/kit/command"
+	"github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/kit/bus"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,7 +17,7 @@ type createRequest struct {
 }
 
 // CreateHandler returns an HTTP handler for courses creation.
-func CreateHandler(commandBus command.Bus) gin.HandlerFunc {
+func CreateHandler(bus bus.Bus) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req createRequest
 		if err := ctx.BindJSON(&req); err != nil {
@@ -25,7 +25,7 @@ func CreateHandler(commandBus command.Bus) gin.HandlerFunc {
 			return
 		}
 
-		err := commandBus.Dispatch(ctx, creating.NewCourseCommand(
+		err := bus.DispatchCommand(ctx, creating.NewCourseCommand(
 			req.ID,
 			req.Name,
 			req.Duration,
