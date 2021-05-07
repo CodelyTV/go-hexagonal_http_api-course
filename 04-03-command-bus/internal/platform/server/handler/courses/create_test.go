@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/kit/command/commandmocks"
+	"github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/kit/bus/busmocks"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -15,16 +15,16 @@ import (
 )
 
 func TestHandler_Create(t *testing.T) {
-	commandBus := new(commandmocks.Bus)
-	commandBus.On(
-		"Dispatch",
+	bus := new(busmocks.Bus)
+	bus.On(
+		"DispatchCommand",
 		mock.Anything,
 		mock.AnythingOfType("creating.CourseCommand"),
 	).Return(nil)
 
 	gin.SetMode(gin.TestMode)
 	r := gin.New()
-	r.POST("/courses", CreateHandler(commandBus))
+	r.POST("/courses", CreateHandler(bus))
 
 	t.Run("given an invalid request it returns 400", func(t *testing.T) {
 		createCourseReq := createRequest{

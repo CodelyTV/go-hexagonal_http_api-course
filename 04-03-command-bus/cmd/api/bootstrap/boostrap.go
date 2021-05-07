@@ -3,6 +3,7 @@ package bootstrap
 import (
 	"database/sql"
 	"fmt"
+	"github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/internal/fetching"
 
 	"github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/internal/creating"
 	"github.com/CodelyTV/go-hexagonal_http_api-course/04-03-command-bus/internal/platform/bus/inmemory"
@@ -30,16 +31,20 @@ func Run() error {
 	}
 
 	var (
-		commandBus = inmemory.NewCommandBus()
+		bus = inmemory.NewCommandBus()
 	)
 
 	courseRepository := mysql.NewCourseRepository(db)
 
 	creatingCourseService := creating.NewCourseService(courseRepository)
+	fetchingCourseService := fetching.NewCourseFetchingService(courseRepository)
 
 	createCourseCommandHandler := creating.NewCourseCommandHandler(creatingCourseService)
-	commandBus.Register(creating.CourseCommandType, createCourseCommandHandler)
+	fetchingCourseQueryHandler := fetching.NewCourseQueryHandler(fetchingCourseService)
 
-	srv := server.New(host, port, commandBus)
+	bus.RegisterCommandHandler(creating.CourseCommandType, createCourseCommandHandler)
+	bus.RegisterQueryHandler(fetching.CourseQueryType, fetchingCourseQueryHandler)
+
+	srv := server.New(host, port, bus)
 	return srv.Run()
 }
