@@ -141,7 +141,7 @@ func (c *Course) Record(evt event.Event) {
 }
 
 // PullEvents returns all the recorded domain events.
-func (c Course) PullEvents() []event.Event {
+func (c *Course) PullEvents() []event.Event {
 	evt := c.events
 	c.events = []event.Event{}
 
