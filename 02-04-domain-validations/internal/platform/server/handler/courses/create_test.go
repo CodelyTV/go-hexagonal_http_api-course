@@ -65,7 +65,7 @@ func TestHandler_Create(t *testing.T) {
 		assert.Equal(t, http.StatusCreated, res.StatusCode)
 	})
 
-	t.Run("given a invalid id in request returns 400", func(t *testing.T) {
+	t.Run("given a invalid id in request returns 406", func(t *testing.T) {
 		createCourseReq := createRequest{
 			ID:       "invalid-id",
 			Name:     "Demo Course DDD",
@@ -84,11 +84,11 @@ func TestHandler_Create(t *testing.T) {
 		res := rec.Result()
 		defer res.Body.Close()
 
-		assert.Equal(t, http.StatusBadRequest, res.StatusCode)
+		assert.Equal(t, http.StatusNotAcceptable, res.StatusCode)
 
 	})
 
-	t.Run("given a incorrect name in request returns 400", func(t *testing.T) {
+	t.Run("given a incorrect name in request returns 410", func(t *testing.T) {
 		createCourseReq := createRequest{
 			ID:       "8a1c5cdc-ba57-445a-994d-aa412d23723f",
 			Name:     "Demo DDD",
@@ -107,7 +107,7 @@ func TestHandler_Create(t *testing.T) {
 		res := rec.Result()
 		defer res.Body.Close()
 
-		assert.Equal(t, http.StatusBadRequest, res.StatusCode)
+		assert.Equal(t, http.StatusGone, res.StatusCode)
 
 	})
 

@@ -23,7 +23,7 @@ type CourseID struct {
 func NewCourseID(value string) (CourseID, error) {
 	v, err := uuid.Parse(value)
 	if err != nil {
-		return CourseID{}, fmt.Errorf("%v: %s", ErrInvalidCourseID, value)
+		return CourseID{}, fmt.Errorf("%w: %s", ErrInvalidCourseID, value)
 	}
 
 	return CourseID{
@@ -52,7 +52,7 @@ func NewCourseName(value string) (CourseName, error) {
 	// debe tener al menos un espacio en blanco
 	if !strings.Contains(value, " ") {
 		log.Println("no tiene espacio en blanco")
-		return CourseName{}, fmt.Errorf("%v: %s", ErrBasicConditionsCourseName, value)
+		return CourseName{}, fmt.Errorf("%w: %s", ErrBasicConditionsCourseName, value)
 	}
 
 	// su longitud minima debe ser de 10 caracteres
@@ -60,7 +60,7 @@ func NewCourseName(value string) (CourseName, error) {
 
 	if length < 10 {
 		log.Println("la longitud es de menos de 10 caracteres")
-		return CourseName{}, fmt.Errorf("%v: %s", ErrBasicConditionsCourseName, value)
+		return CourseName{}, fmt.Errorf("%w: %s", ErrBasicConditionsCourseName, value)
 	}
 
 	return CourseName{

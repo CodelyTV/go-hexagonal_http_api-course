@@ -1,6 +1,7 @@
 package courses
 
 import (
+	"errors"
 	"log"
 	"net/http"
 
@@ -24,8 +25,22 @@ func CreateHandler(courseRepository mooc.CourseRepository) gin.HandlerFunc {
 		}
 
 		course, err := mooc.NewCourse(req.ID, req.Name, req.Duration)
+
 		if err != nil {
+			// ver aqui devolver distintos codigos de errores segun cada VO
+			// CourseId   -> 406
+			// CourseName -> 410
 			log.Println(err.Error())
+
+			if errors.Is(err, mooc.ErrInvalidCourseID) {
+				ctx.JSON(http.StatusNotAcceptable, err.Error())
+				return
+			}
+			if errors.Is(err, mooc.ErrBasicConditionsCourseName) {
+				ctx.JSON(http.StatusGone, err.Error())
+				return
+			}
+
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
 		}
