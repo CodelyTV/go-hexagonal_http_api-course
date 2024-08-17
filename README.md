@@ -65,7 +65,7 @@ on a MySQL database. So, to simplify its execution, we've added a
 To run it, just execute:
 
 ```sh
-docker-compose up -d 
+docker compose up -d 
 ```
 
 You can also use your own MySQL instance. Note that those applications
